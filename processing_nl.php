@@ -21,9 +21,42 @@ const UPLOAD_DIR = 'uploaded_files';
 const DOWNLOAD_DIR = 'downloaded_files';
 const WORD_NOTICE = 'NOTIZIA';
 const TEMPLATE_DIR = 'NL_TEMPLATE';
+const NEWSLETTER_DIR = 'newsletter_ITA';
 
 $file_tmp = $_FILES['FileToUpload']['tmp_name'];
 $file_name = $_FILES['FileToUpload']['name'];
+
+$pathToNewsletter = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR;
+$pathToNewsletterImg = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR.'/img';
+$pathToNewsletterImgDefault = TEMPLATE_DIR.'/img_default';
+
+if ( !is_dir($pathToNewsletter))
+{
+    mkdir($pathToNewsletter);
+    mkdir($pathToNewsletterImg);
+}
+
+if ( is_dir($pathToNewsletterImgDefault))
+{
+    copy($pathToNewsletterImgDefault.'/facebook.png', $pathToNewsletterImg.'/facebook.png');
+    copy($pathToNewsletterImgDefault.'/linkedin.png', $pathToNewsletterImg.'/linkedin.png');
+    copy($pathToNewsletterImgDefault.'/youtube.png', $pathToNewsletterImg.'/youtube.png');
+}
+
+$file_images_names = array();
+foreach ($_FILES['FilesImagesToUpload']['name'] as $i => $name)
+{
+    $file_images_names[] = $name;
+
+    if (strlen($_FILES['FilesImagesToUpload']['name'][$i]) > 1)
+    {
+        if (move_uploaded_file($_FILES['FilesImagesToUpload']['tmp_name'][$i], $pathToNewsletter.'/img/'.$name))
+        {
+            echo 'Image '.$name.' uploaded!<br>';
+        }
+    }
+}
+
 
 if (move_uploaded_file($file_tmp, UPLOAD_DIR . '/' . $file_name))
 {
@@ -108,7 +141,7 @@ for($i = 0; $i < $count_notices; $i++)
                                     <tbody>
                                     <tr>
                                         <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
-                                            <img src="img/1_rinnovabili.jpg" width="100%" alt="" style="display:block;border-width:0;" />
+                                            <img src="img/'.$file_images_names[$i].'" width="100%" alt="" style="display:block;border-width:0;" />
                                         </td>
                                     </tr>
                                     </tbody>
@@ -143,4 +176,4 @@ $marginEnd = $doc->createCDATASection
 
 $parent->appendChild($marginEnd);
 
-$doc->saveHTMLFile(DOWNLOAD_DIR.'/newsletter_ITA.html');
+$doc->saveHTMLFile($pathToNewsletter.'/newsletter_ITA.html');

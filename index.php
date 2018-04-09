@@ -15,8 +15,8 @@
 <body>
 
     <form action="processing_nl.php" method="post" enctype="multipart/form-data">
-        <h1>Choose file</h1>
-        <input type="file" name="FileToUpload">
+        <h1>Choose file <input type="file" name="FileToUpload"></h1>
+        <h1>Choose directory images <input type="file" name="FilesImagesToUpload[]" webkitdirectory directory multiple></h1>
         <input type="submit" value="Convert">
     </form>
 
