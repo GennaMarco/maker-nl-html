@@ -22,12 +22,13 @@ const DOWNLOAD_DIR = 'downloaded_files';
 const WORD_NOTICE = 'NOTIZIA';
 const TEMPLATE_DIR = 'NL_TEMPLATE';
 const NEWSLETTER_DIR = 'newsletter_ITA';
+const IMG_DIR = 'img';
 
 $file_tmp = $_FILES['FileToUpload']['tmp_name'];
 $file_name = $_FILES['FileToUpload']['name'];
 
 $pathToNewsletter = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR;
-$pathToNewsletterImg = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR.'/img';
+$pathToNewsletterImg = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR.'/'.IMG_DIR;
 $pathToNewsletterImgDefault = TEMPLATE_DIR.'/img_default';
 
 if ( !is_dir($pathToNewsletter))
@@ -80,7 +81,7 @@ $parent = $doc->getElementById('id_notices_to_append');
 
 for($i = 0, $index_color = 0; $i < $count_notices; $i++)
 {
-    // Switch text and image of block's tempalte
+    // Switch text and image of block's template
     if($i % 2 == 0)
     {
         $alignUp = 'left';
@@ -112,6 +113,7 @@ for($i = 0, $index_color = 0; $i < $count_notices; $i++)
         $abstract = trim(getStringBetweenWords($docTextFromLineNotice, "ABSTRACT", PHP_EOL));
         $link = getStringBetweenWords($docTextFromLineNotice, PHP_EOL, PHP_EOL);
 
+        // Add point (.) at the end of string if it doesn't exist or if doesn't exist '?' or '!' 
         if (substr($abstract, -1) != '.' && substr($abstract, -1) != '!' && substr($abstract, -1) != '?')
         {
             $abstract .= '.';
@@ -120,55 +122,55 @@ for($i = 0, $index_color = 0; $i < $count_notices; $i++)
         $child = $doc->createCDATASection
         (
             PHP_EOL.PHP_EOL.'<!-- NOTIZIA '.($i + 1).'-->
-              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
-                        <tbody>
-                        <tr>
-                            <td align="center" style="background-color:#ffffff;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
-                                <table width="258" border="0" align="'.$alignUp.'" cellpadding="0" cellspacing="0" class="container600" style="border-width:0;" >
-                                    <tbody>
-                                    <tr>
-                                        <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
-                                            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-width:0;" >
-                                                <tbody>
-                                                <tr>
-                                                    <td align="left" style="background-color:#ffffff;font-family:Arial;color:'.COLORS_LABELS[$index_color].';font-size:14px;border-width:5px;border-style:solid;border-color:#ffffff;" ><strong>'.$topic.'</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="left" style="background-color:#ffffff;font-family:Arial;color:#000001;font-size:21px;border-width:5px;border-style:solid;border-color:#ffffff;line-height:24px;" >'.$title.'</td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="left" style="background-color:#ffffff;font-family:Arial;color:#6f6f6e;font-size:15px;border-width:5px;border-style:solid;border-color:#ffffff;line-height:20px;" >
-                                                        '.$abstract.'
-                                                        <br><a  href="#" target="_blank" style="color:'.COLORS_LABELS[$index_color].';text-decoration:none;" >'.$link.'</a><br>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <table width="258" border="0" align="'.$alignDown.'" cellpadding="0" cellspacing="0" class="container600" style="border-width:0;" >
-                                    <tbody>
-                                    <tr>
-                                        <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
-                                            <img src="img/'.$file_images_names[$i].'" width="100%" alt="" style="display:block;border-width:0;" />
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
+                <tbody>
+                <tr>
+                    <td align="center" style="background-color:#ffffff;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
+                        <table width="258" border="0" align="'.$alignUp.'" cellpadding="0" cellspacing="0" class="container600" style="border-width:0;" >
+                            <tbody>
+                            <tr>
+                                <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-width:0;" >
+                                        <tbody>
+                                        <tr>
+                                            <td align="left" style="background-color:#ffffff;font-family:Arial;color:'.COLORS_LABELS[$index_color].';font-size:14px;border-width:5px;border-style:solid;border-color:#ffffff;" ><strong>'.$topic.'</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="background-color:#ffffff;font-family:Arial;color:#000001;font-size:21px;border-width:5px;border-style:solid;border-color:#ffffff;line-height:24px;" >'.$title.'</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="background-color:#ffffff;font-family:Arial;color:#6f6f6e;font-size:15px;border-width:5px;border-style:solid;border-color:#ffffff;line-height:20px;" >
+                                                '.$abstract.'
+                                                <br><a  href="#" target="_blank" style="color:'.COLORS_LABELS[$index_color].';text-decoration:none;" >'.$link.'</a><br>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table width="258" border="0" align="'.$alignDown.'" cellpadding="0" cellspacing="0" class="container600" style="border-width:0;" >
+                            <tbody>
+                            <tr>
+                                <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
+                                    <img src="'.IMG_DIR.'/'.$file_images_names[$i].'" width="100%" alt="" style="display:block;border-width:0;" />
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
-                        <tbody>
-                        <tr>
-                            <td width="100%" style="background-color:#eeeeee;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >&nbsp;</td>
-                        </tr>
-                        </tbody>
-                    </table>'
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
+                <tbody>
+                <tr>
+                    <td width="100%" style="background-color:#eeeeee;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>'
         );
 
         $index_color++;
@@ -177,34 +179,34 @@ for($i = 0, $index_color = 0; $i < $count_notices; $i++)
     {
         $child = $doc->createCDATASection
         (
-            '<!-- NOTIZIA '.($i + 1).' -->
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
-                        <tbody>
-                        <tr>
-                            <td align="left" style="background-color:#ffffff;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
-                                <table width="540"  border="0" align="center" cellpadding="0" cellspacing="0" class="container600" style="border-width:0;" >
-                                    <tbody>
-                                    <tr>
-                                        <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
-                                            <a href="#" target="_blank">
-                                                <img src="img/'.$file_images_names[$i].'" width="100%" alt="" style="display:block;border-width:0;" />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
-                        <tbody>
-                        <tr>
-                            <td width="100%" style="background-color:#eeeeee;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >&nbsp;</td>
-                        </tr>
-                        </tbody>
-                    </table>'
+            PHP_EOL.PHP_EOL.'<!-- NOTIZIA '.($i + 1).' -->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
+                    <tbody>
+                    <tr>
+                        <td align="left" style="background-color:#ffffff;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
+                            <table width="540"  border="0" align="center" cellpadding="0" cellspacing="0" class="container600" style="border-width:0;" >
+                                <tbody>
+                                <tr>
+                                    <td style="font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >
+                                        <a href="#" target="_blank">
+                                            <img src="'.IMG_DIR.'/'.$file_images_names[$i].'" width="100%" alt="" style="display:block;border-width:0;" />
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container600" style="border-width:0;" >
+                    <tbody>
+                    <tr>
+                        <td width="100%" style="background-color:#eeeeee;font-family:\'Trebuchet MS\', Arial, Helvetica, sans-serif;" >&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>'
         );
     }
 
