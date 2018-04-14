@@ -23,6 +23,13 @@ function getStringBetweenWords($text, $word_start, $word_end, $key_word_abstract
             $posStart = strpos($text, $word_start) + strlen($word_start) + 1;
 
             $tempString = substr($text, $posStart);
+
+            // Add \r\n (PHP_EOL) at the end of string if it doesn't exist
+            if (substr($tempString, -1) != $word_end)
+            {
+                $tempString .= $word_end;
+            }
+
             $posStart = strpos($tempString, $word_end);
             $posEnd = strpos($tempString, $word_end, $posStart + strlen($word_end));
             $length = $posEnd - $posStart;
