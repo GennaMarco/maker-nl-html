@@ -12,13 +12,13 @@
  * @param $word_end
  * @return bool|string
  */
-function getStringBetweenWords($text, $word_start, $word_end)
+function getStringBetweenWords($text, $word_start, $word_end, $key_word_abstract = 'ABSTRACT')
 {
     switch([$word_start, $word_end])
     {
         // Get the link of notice
         case [PHP_EOL, PHP_EOL]:
-            $word_start = 'ABSTRACT';
+            $word_start = $key_word_abstract;
             $posStart = strpos($text, $word_start) + strlen($word_start) + 1;
 
             $tempString = substr($text, $posStart);

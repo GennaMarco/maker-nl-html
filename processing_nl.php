@@ -24,16 +24,19 @@ const COLORS_LABELS = array
 );
 const UPLOAD_DIR = 'uploaded_files';
 const DOWNLOAD_DIR = 'downloaded_files';
-const WORD_NOTICE = 'NOTIZIA';
 const TEMPLATE_DIR = 'NL_TEMPLATE';
-const NEWSLETTER_DIR = 'newsletter_ITA';
 const IMG_DIR = 'img';
 
+$newsletterDir = 'newsletter_'.$_POST['Language'];
+$keyWordNotice = $_POST['keyWordNotice'];
+$keyWordTopic= $_POST['keyWordTopic'];
+$keyWordTitle = $_POST['keyWordTitle'];
+$keyWordAbstract = $_POST['keyWordAbstract'];
 $file_tmp = $_FILES['FileToUpload']['tmp_name'];
 $file_name = $_FILES['FileToUpload']['name'];
 
-$pathToNewsletter = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR;
-$pathToNewsletterImg = DOWNLOAD_DIR.'/'.NEWSLETTER_DIR.'/'.IMG_DIR;
+$pathToNewsletter = DOWNLOAD_DIR.'/'.$newsletterDir;
+$pathToNewsletterImg = DOWNLOAD_DIR.'/'.$newsletterDir.'/'.IMG_DIR;
 $pathToNewsletterImgDefault = TEMPLATE_DIR.'/img_default';
 
 if ( !is_dir($pathToNewsletter))
@@ -77,10 +80,10 @@ $docObj = new DocConversion(UPLOAD_DIR . '/' . $file_name);
 $docText = $docObj->convertToText();
 
 // Count number of notices in the string
-$count_notices = preg_match_all('/\b'.WORD_NOTICE.'/', $docText, $matches, PREG_OFFSET_CAPTURE);
+$count_notices = preg_match_all('/\b'.$keyWordNotice.'/', $docText, $matches, PREG_OFFSET_CAPTURE);
 
 $doc = new DOMDocument;
-$doc->loadHtmlFile( TEMPLATE_DIR.'/newsletter_TEMP.html');
+$doc->loadHtmlFile( TEMPLATE_DIR.'/'.$newsletterDir.'_TEMP.html');
 
 $parent = $doc->getElementById('id_notices_to_append');
 
@@ -110,13 +113,13 @@ for($i = 0, $index_color = 0; $i < $count_notices; $i++)
     $nextLine = substr($docTextFromLineNotice, $posFirstPHP_EOL, $length);
 
     // Check if a string contains the TOPIC word
-    if(strpos($nextLine, 'TOPIC') !== false )
+    if(strpos($nextLine, $keyWordTopic) !== false )
     {
         // Read of the texts from the document text
-        $topic = getStringBetweenWords($docTextFromLineNotice, "TOPIC", "TITOLO");
-        $title = getStringBetweenWords($docTextFromLineNotice, "TITOLO", "ABSTRACT");
-        $abstract = trim(getStringBetweenWords($docTextFromLineNotice, "ABSTRACT", PHP_EOL));
-        $link = getStringBetweenWords($docTextFromLineNotice, PHP_EOL, PHP_EOL);
+        $topic = getStringBetweenWords($docTextFromLineNotice, $keyWordTopic, $keyWordTitle);
+        $title = getStringBetweenWords($docTextFromLineNotice, $keyWordTitle, $keyWordAbstract);
+        $abstract = trim(getStringBetweenWords($docTextFromLineNotice, $keyWordAbstract, PHP_EOL));
+        $link = getStringBetweenWords($docTextFromLineNotice, PHP_EOL, PHP_EOL, $keyWordAbstract);
 
         // Add point (.) at the end of string if it doesn't exist or if doesn't exist '?' or '!' 
         if (substr($abstract, -1) != '.' && substr($abstract, -1) != '!' && substr($abstract, -1) != '?')
@@ -231,4 +234,4 @@ $marginEnd = $doc->createCDATASection
 
 $parent->appendChild($marginEnd);
 
-$doc->saveHTMLFile($pathToNewsletter.'/'.NEWSLETTER_DIR.'.html');
+$doc->saveHTMLFile($pathToNewsletter.'/'.$newsletterDir.'.html');
