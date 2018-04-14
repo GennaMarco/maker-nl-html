@@ -8,81 +8,81 @@
 
 class DocConversion
 {
-    private $filename;
+    private $fileName;
 
     public function __construct($filePath)
     {
-        $this->filename = $filePath;
+        $this->fileName = $filePath;
     }
 
-    private function read_doc()
+    private function readDoc()
     {
-        $fileHandle = fopen($this->filename, "r");
-        $line = @fread($fileHandle, filesize($this->filename));
+        $fileHandle = fopen($this->fileName, "r");
+        $line = @fread($fileHandle, filesize($this->fileName));
         $lines = explode(chr(0x0D),$line);
-        $outtext = "";
-        foreach($lines as $thisline)
+        $outText = "";
+        foreach($lines as $thisLine)
         {
-            $pos = strpos($thisline, chr(0x00));
-            if (($pos !== FALSE)||(strlen($thisline)==0))
+            $pos = strpos($thisLine, chr(0x00));
+            if (($pos !== FALSE)||(strlen($thisLine)==0))
             {
             }
             else
             {
-                $outtext .= $thisline." ";
+                $outText .= $thisLine." ";
             }
         }
-        $outtext = preg_replace("/[^a-zA-Z0-9\s\,\.\-\n\r\t@\/\_\(\)]/","",$outtext);
-        return $outtext;
+        $outText = preg_replace("/[^a-zA-Z0-9\s\,\.\-\n\r\t@\/\_\(\)]/","",$outText);
+        return $outText;
     }
 
-    private function read_docx()
+    private function readDocx()
     {
         $content = '';
 
-        $zip = zip_open($this->filename);
+        $zip = zip_open($this->fileName);
 
         if (!$zip || is_numeric($zip)) return false;
 
-        while ($zip_entry = zip_read($zip))
+        while ($zipEntry = zip_read($zip))
         {
-            if (zip_entry_open($zip, $zip_entry) == FALSE) continue;
+            if (zip_entry_open($zip, $zipEntry) == FALSE) continue;
 
-            if (zip_entry_name($zip_entry) != "word/document.xml") continue;
+            if (zip_entry_name($zipEntry) != "word/document.xml") continue;
 
-            $content .= zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+            $content .= zip_entry_read($zipEntry, zip_entry_filesize($zipEntry));
 
-            zip_entry_close($zip_entry);
+            zip_entry_close($zipEntry);
         }
 
         zip_close($zip);
 
         $content = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $content);
         $content = str_replace('</w:r></w:p>', "\r\n", $content);
-        $striped_content = strip_tags($content);
+        $stripedContent = strip_tags($content);
 
-        return $striped_content;
+        return $stripedContent;
     }
 
     public function convertToText()
     {
 
-        if(isset($this->filename) && !file_exists($this->filename))
+        if(isset($this->fileName) && !file_exists($this->fileName))
         {
             return "File Not exists";
         }
 
-        $fileArray = pathinfo($this->filename);
-        $file_ext  = $fileArray['extension'];
-        if($file_ext == "doc" || $file_ext == "docx")
+        $fileArray = pathinfo($this->fileName);
+        $fileExt  = $fileArray['extension'];
+        if($fileExt == "doc" || $fileExt == "docx")
         {
-            if($file_ext == "doc")
+            if($fileExt == "doc")
             {
-                return $this->read_doc();
+                return $this->readDoc();
             }
-            else if($file_ext == "docx")
+            else if($fileExt == "docx")
             {
-                return $this->read_docx();
+                return $this->readDocx();
             }
         }
         else

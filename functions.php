@@ -10,6 +10,7 @@
  * @param $text
  * @param $word_start
  * @param $word_end
+ * @param string $key_word_abstract
  * @return bool|string
  */
 function getStringBetweenWords($text, $word_start, $word_end, $key_word_abstract = 'ABSTRACT')
