@@ -24,7 +24,7 @@
                 <option value="ESP">ESP</option>
             </select>
         </h1>
-        <h1>Choose key word of notice
+        <h1>Choose key word for notice
             <select name="keyWordNotice">
                 <option value="NOTIZIA">NOTIZIA</option>
                 <option value="NEWS ITEM">NEWS ITEM</option>
