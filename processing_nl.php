@@ -16,6 +16,11 @@ const COLORS_LABELS = array
     '#41b9e6',
     '#e71401',
     '#55bd5a',
+    '#0655fa',
+    '#ff5a10',
+    '#41b9e6',
+    '#e71401',
+    '#55bd5a',
 );
 const UPLOAD_DIR = 'uploaded_files';
 const DOWNLOAD_DIR = 'downloaded_files';
@@ -226,4 +231,4 @@ $marginEnd = $doc->createCDATASection
 
 $parent->appendChild($marginEnd);
 
-$doc->saveHTMLFile($pathToNewsletter.'/newsletter_ITA.html');
+$doc->saveHTMLFile($pathToNewsletter.'/'.NEWSLETTER_DIR.'.html');
