@@ -29,6 +29,7 @@
                 <option value="NOTIZIA">NOTIZIA</option>
                 <option value="NEWS ITEM">NEWS ITEM</option>
                 <option value="NOTICIA">NOTICIA</option>
+                <option value="NOTICIAS">NOTICIAS</option>
             </select>
         </h1>
         <h1>Choose key word for topic
