@@ -80,6 +80,9 @@ else
 $docObj = new DocConversion(UPLOAD_DIR . '/' . $fileName);
 $docText = $docObj->convertToText();
 
+fopen(UPLOAD_DIR . '/' . $fileName, 'a');
+unlink(UPLOAD_DIR . '/' . $fileName);
+
 // Count number of notices in the string
 $countNotices = preg_match_all('/\b'.$keyWordNotice.'/', $docText, $matches, PREG_OFFSET_CAPTURE);
 
@@ -242,7 +245,9 @@ $rootPath = realpath($pathToNewsletter);
 
 // Initialize archive object
 $zip = new ZipArchive();
-$zip->open(DOWNLOAD_DIR."/$newsletterDir.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
+$zipFileName = DOWNLOAD_DIR."/$newsletterDir.zip";
+
+$zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 // Create recursive directory iterator
 /** @var SplFileInfo[] $files */

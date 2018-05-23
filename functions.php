@@ -59,3 +59,21 @@ function getStringBetweenWords($text, $word_start, $word_end, $key_word_abstract
 
     return $textSearched;
 }
+
+/**
+ * @param $zip_file_path
+ */
+function downloadFileZip($zip_file_path)
+{
+    header('Content-type: application/zip');
+    header('Content-Disposition: attachment; filename="'.basename($zip_file_path).'"');
+    header("Content-length: " . filesize($zip_file_path));
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    ob_clean();
+    flush();
+
+    readfile($zip_file_path);
+    unlink($zip_file_path);
+}
