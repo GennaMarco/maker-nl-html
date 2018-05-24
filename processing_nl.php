@@ -61,7 +61,7 @@ foreach ($_FILES['FilesImagesToUpload']['name'] as $i => $name)
 
     if (strlen($_FILES['FilesImagesToUpload']['name'][$i]) > 1)
     {
-        if (move_uploaded_file($_FILES['FilesImagesToUpload']['tmp_name'][$i], $pathToNewsletter.'/img/'.$name))
+        if (move_uploaded_file($_FILES['FilesImagesToUpload']['tmp_name'][$i], $pathToNewsletterImg.'/'.$name))
         {
             echo 'Image '.$name.' uploaded!<br>';
         }
@@ -80,7 +80,7 @@ else
 $docObj = new DocConversion(UPLOAD_DIR . '/' . $fileName);
 $docText = $docObj->convertToText();
 
-fopen(UPLOAD_DIR . '/' . $fileName, 'a');
+//fopen(UPLOAD_DIR . '/' . $fileName, 'a');
 unlink(UPLOAD_DIR . '/' . $fileName);
 
 // Count number of notices in the string
@@ -241,7 +241,7 @@ $parent->appendChild($marginEnd);
 $doc->saveHTMLFile($pathToNewsletter.'/'.$newsletterDir.'.html');
 
 // Get real path for our folder
-$rootPath = realpath($pathToNewsletter);
+$rootPath = realpath(DOWNLOAD_DIR);
 
 // Initialize archive object
 $zip = new ZipArchive();
@@ -269,3 +269,8 @@ foreach ($files as $name => $file)
 
 // Zip archive will be created only after closing object
 $zip->close();
+
+downloadFileZip($zipFileName);
+unlink($zipFileName);
+
+removeDir($pathToNewsletter);
