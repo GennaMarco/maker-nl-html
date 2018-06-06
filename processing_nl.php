@@ -51,6 +51,7 @@ if ( is_dir($pathToNewsletterImgDefault))
     copy($pathToNewsletterImgDefault.'/facebook.png', $pathToNewsletterImg.'/facebook.png');
     copy($pathToNewsletterImgDefault.'/linkedin.png', $pathToNewsletterImg.'/linkedin.png');
     copy($pathToNewsletterImgDefault.'/youtube.png', $pathToNewsletterImg.'/youtube.png');
+    copy($pathToNewsletterImgDefault.'/instagram.png', $pathToNewsletterImg.'/instagram.png');
 }
 
 $filesImagesNames = array();
