@@ -38,7 +38,7 @@ $fileName = $_FILES['FileToUpload']['name'];
 
 $pathToNewsletter = DOWNLOAD_DIR.'/'.$newsletterDir;
 $pathToNewsletterImg = DOWNLOAD_DIR.'/'.$newsletterDir.'/'.IMG_DIR;
-$pathToNewsletterImgDefault = TEMPLATE_DIR.'/img_default';
+$pathToNewsletterImgDefault = TEMPLATE_DIR.'/img';
 
 if ( !is_dir($pathToNewsletter))
 {
