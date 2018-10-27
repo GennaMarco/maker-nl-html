@@ -154,7 +154,7 @@ for($i = 0, $indexColor = 0; $i < $countNotices; $i++)
                                             <tr>
                                                 <td align="left" style="background-color:#ffffff;font-family:Arial;color:#6f6f6e;font-size:15px;border-width:5px;border-style:solid;border-color:#ffffff;line-height:20px;" >
                                                     '.$abstract.'
-                                                    <br><a  href="#" target="_blank" style="color:'.COLORS_LABELS[$indexColor].';text-decoration:none;" >'.$link.'</a><br>
+                                                    <br><br><a  href="#" target="_blank" style="color:'.COLORS_LABELS[$indexColor].';text-decoration:none;" >'.$link.'</a><br>
                                                 </td>
                                             </tr>
                                             </tbody>
